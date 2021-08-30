@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  tinydns:
+    container_name: tinydns
+    network_mode: bridge
+    build: .
+    volumes:
+      - ./data:/etc/tinydns/root/data
+      - ./update.sh:/update.sh

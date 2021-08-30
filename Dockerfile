@@ -3,7 +3,7 @@ MAINTAINER Daniel Hähnke
 
 RUN \
  apk update; \
- apk add gcc g++ make curl patch; 
+ apk add gcc g++ make curl patch openssh grep; 
 
 # install daemontools
 # TODO: checksums
