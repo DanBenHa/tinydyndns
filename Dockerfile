@@ -43,3 +43,8 @@ RUN \
 
 
 EXPOSE 53/udp
+CMD \
+ cd /etc/tinydns/root; \
+ make; \
+ cd /etc/tinydns; \
+ ./run;
