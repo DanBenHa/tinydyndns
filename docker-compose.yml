@@ -7,3 +7,4 @@ services:
     volumes:
       - ./data:/etc/tinydns/root/data
       - ./update.sh:/update.sh
+      - ./id_rsa.pub:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1002 and have 600
