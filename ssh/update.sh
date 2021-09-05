@@ -17,7 +17,6 @@ get_current_a()
 construct_a()
 {
     entry=+$1.:$2:$TTL
-    echo $entry
 }
 
 replace_a()
@@ -26,15 +25,6 @@ replace_a()
     cat /tmp/foo > $data
 }
 
-# make_restart()
-# {
-#     cd /etc/tinydns/root
-#     make
-#     pid=$(pgrep tinydns)
-#     kill $pid
-#     cd /etc/tinydns
-#     ./run &
-# }
 
 
 
@@ -43,4 +33,3 @@ ip4_new=$3
 get_current_a $fqdn
 construct_a $fqdn $ip4_new
 replace_a $line $entry
-# make_restart

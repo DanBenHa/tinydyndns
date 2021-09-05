@@ -41,6 +41,8 @@ RUN \
  rm -r /tmp/*; \
  rm -r /var/cache/apk/*;
 
+ADD make_restart.sh /make_restart.sh
+
 EXPOSE 53/udp
 
 CMD \
