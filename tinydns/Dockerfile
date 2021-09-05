@@ -41,12 +41,12 @@ RUN \
  rm -r /tmp/*; \
  rm -r /var/cache/apk/*;
 
+
 ADD make_restart.sh /make_restart.sh
+ADD entrypoint.sh /entrypoint.sh
+RUN ["chmod", "+x", "/entrypoint.sh"]
+RUN ["chmod", "+x", "/make_restart.sh"]
 
 EXPOSE 53/udp
 
-CMD \
- cd /etc/tinydns/root; \
- make; \
- cd /etc/tinydns; \
- ./run;
+ENTRYPOINT ["/entrypoint.sh"]
