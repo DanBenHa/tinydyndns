@@ -3,7 +3,7 @@ MAINTAINER Daniel Hähnke
 
 RUN \
  apk update; \
- apk add gcc g++ make curl patch openssh grep; 
+ apk add gcc g++ make curl patch;
 
 # install daemontools
 # TODO: checksums
@@ -41,22 +41,9 @@ RUN \
  rm -r /tmp/*; \
  rm -r /var/cache/apk/*;
 
-ADD update.sh /update.sh
-
-RUN \
-    adduser -D -s /update.sh dyndns; \
-    touch /home/dyndns/.hushlogin; \
-    echo dyndns:changeme | chpasswd;
-
-RUN ssh-keygen -A;
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
-
-
 EXPOSE 53/udp
-EXPOSE 22/tcp
 
 CMD \
- /usr/sbin/sshd; \
  cd /etc/tinydns/root; \
  make; \
  cd /etc/tinydns; \

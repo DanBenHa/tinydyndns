@@ -3,8 +3,13 @@ services:
   tinydns:
     container_name: tinydns
     network_mode: bridge
-    build: .
+    build: tinydns
     volumes:
-      - ./data:/etc/tinydns/root/data
-      - ./update.sh:/update.sh
-      - ./id_rsa.pub:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1002 and have 600
+      - ./data:/etc/tinydns/root/data:ro
+  ssh:
+    container_name: updater
+    network_mode: bridge
+    build: ssh
+    volumes:
+      - ./data:/home/dyndns/data
+      - ./id_rsa.pub:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
