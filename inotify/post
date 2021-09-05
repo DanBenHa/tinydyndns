@@ -1,0 +1,14 @@
+{
+  "AttachStdin": false,
+  "AttachStdout": true,
+  "AttachStderr": true,
+  "DetachKeys": "ctrl-p,ctrl-q",
+  "Tty": false,
+  "Cmd": [
+    "/make_restart.sh"
+  ],
+  "Env": [
+    "FOO=bar",
+    "BAZ=quux"
+  ]
+}

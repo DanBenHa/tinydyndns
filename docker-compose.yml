@@ -13,3 +13,17 @@ services:
     volumes:
       - ./data:/home/dyndns/data
       - ./id_rsa.pub:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
+
+  inotify:
+    build: inotify
+    container_name: 'inotify'
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - ./data:/data:ro
+    - ./inotify/post:/post:ro
+    - ./inotify/start:/start:ro
+    environment:
+    - CONTAINER=tinydns
+    - VOLUMES=/data
+    - INOTIFY_OPTONS=--monitor
+    - INOTIFY_EVENTS=close_write
