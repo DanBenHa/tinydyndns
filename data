@@ -1,0 +1,15 @@
+# soa
+Zexample.com.:ns1.example.com.:hostmaster.example.com.
+# a
++ns1.example.com:1.1.1.1:3600
++ns2.example.com:1.1.1.1:3600
++example.com.:2.2.2.2:60
++*.example.com.:2.2.2.2:60
+# aaaa
+3ns1.example.com.:26064700470000000000000000006400
+3ns2.example.com.:26064700470000000000000000006400
+3example.com.:26064700470000000000000000006401
+3*.example.com.:26064700470000000000000000006401
+# ns
+&example.com.::ns1.example.com.:3600
+&example.com.::ns2.example.com.:3600
