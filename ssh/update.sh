@@ -25,11 +25,23 @@ replace_a()
     cat /tmp/foo > $data
 }
 
-
-
-
-fqdn=$2
-ip4_new=$3
+# If run via ssh input arguments are passed as
+# -c "first second third etc".
+# Therefore, second argument has to be parsed
+if test $# -eq 0; then
+	echo "Illegal number of arguments."
+	exit 1
+fi
+# split the string
+fqdn=$(echo $2 | cut -d " " -f1)
+ip_new=$(echo $2 | cut -d " " -f2)
+# ip wasn't supplied, use ip from ssh client
+if test $fqdn = $ip_new; then
+	ip_new=${SSH_CLIENT%% *}
+fi
+# check currently set ip and only update if it differs from new ip
 get_current_a $fqdn
-construct_a $fqdn $ip4_new
-replace_a $line $entry
+if test $ip_new != $ip4_old; then
+	construct_a $fqdn $ip_new
+	replace_a $line $entry
+fi
