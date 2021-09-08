@@ -42,10 +42,10 @@ RUN \
  rm -r /var/cache/apk/*;
 
 
-ADD make_restart.sh /make_restart.sh
+ADD make_cdb.sh /make_cdb.sh
 ADD entrypoint.sh /entrypoint.sh
+RUN ["chmod", "+x", "/make_cdb.sh"]
 RUN ["chmod", "+x", "/entrypoint.sh"]
-RUN ["chmod", "+x", "/make_restart.sh"]
 
 EXPOSE 53/udp
 

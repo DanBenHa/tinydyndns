@@ -5,7 +5,7 @@
   "DetachKeys": "ctrl-p,ctrl-q",
   "Tty": false,
   "Cmd": [
-    "/make_restart.sh"
+    "/make_cdb.sh"
   ],
   "Env": [
     "FOO=bar",
