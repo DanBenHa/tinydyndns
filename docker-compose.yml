@@ -2,13 +2,15 @@ version: "3.9"
 services:
   tinydns:
     container_name: tinydns
-    network_mode: bridge
+    ports:
+      - "53:53/udp"
     build: tinydns
     volumes:
       - ./data:/etc/tinydns/root/data:ro
   ssh:
     container_name: updater
-    network_mode: bridge
+    ports:
+      - "44:22"
     build: ssh
     volumes:
       - ./data:/home/dyndns/data
