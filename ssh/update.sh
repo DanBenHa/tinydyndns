@@ -46,8 +46,10 @@ append_record()
 
 remove_txt()
 {
+    # escape wildcard
+    domain=${fqdn/\*/"\*"}
     # remove all txt records matching fqdn
-    sed "/^'$fqdn/d" $data > /tmp/foo
+    sed "/^'$domain/d" $data > /tmp/foo
     cat /tmp/foo > $data
 }
 
