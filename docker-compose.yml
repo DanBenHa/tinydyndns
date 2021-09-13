@@ -3,7 +3,7 @@ services:
   tinydns:
     container_name: tinydns
     ports:
-      - "53:53/udp"
+      - "1053:53/udp"
     build: tinydns
     volumes:
       - ./data:/etc/tinydns/root/data:ro
@@ -14,7 +14,7 @@ services:
     build: ssh
     volumes:
       - ./data:/home/dyndns/data
-      - ./id_rsa.pub:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
+      - ./authorized_keys:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
 
   inotify:
     build: inotify
