@@ -3,7 +3,7 @@ MAINTAINER Daniel Hähnke
 
 RUN \
  apk update; \
- apk add openssh grep;
+ apk add openssh grep sipcalc;
 
 # cleanup
 RUN \
