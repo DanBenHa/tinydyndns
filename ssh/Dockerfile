@@ -21,4 +21,6 @@ ADD update.sh /update.sh
 EXPOSE 22/tcp
 
 CMD \
- /usr/sbin/sshd -D;
+    echo $IP4_DEFAULT > /home/dyndns/IP4_DEFAULT; \ 
+    echo $IP6_DEFAULT > /home/dyndns/IP6_DEFAULT; \ 
+    /usr/sbin/sshd -D;

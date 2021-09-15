@@ -9,6 +9,9 @@ services:
       - ./data:/etc/tinydns/root/data:ro
   ssh:
     container_name: updater
+    environment:
+      IP4_DEFAULT: ${IP4_DEFAULT}
+      IP6_DEFAULT: ${IP6_DEFAULT}
     ports:
       - "44:22"
     build: ssh

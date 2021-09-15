@@ -2,15 +2,19 @@
 
 TTL=60
 data=/home/dyndns/data
+IP4_DEFAULT=$(cat /home/dyndns/IP4_DEFAULT)
+IP6_DEFAULT=$(cat /home/dyndns/IP6_DEFAULT)
 
 get_current_record()
 {
     domain=$1
+    # escape wildcard
+    domain=${domain/\*/"\*"}
+
     prefix=$2
     # escape plus
     prefix=${prefix/\+/"\+"}
-    # escape wildcard
-    domain=${domain/\*/"\*"}
+
     linematch=$(grep -noP "(?<=$prefix$domain.:)[\d\.]*" $data)
     line=$(echo $linematch | cut -d":" -f1)
     record_old=$(echo $linematch | cut -d":" -f2)
@@ -18,8 +22,7 @@ get_current_record()
 
 construct_record()
 {
-    prefix=$3
-    entry=$3$1.:$2:$TTL
+    entry=$1$2.:$3:$TTL
 }
 
 replace_record()
@@ -27,6 +30,35 @@ replace_record()
     sed -E "$1s/.*/$2/" $data > /tmp/data
     cat /tmp/data > $data
     rm /tmp/data
+}
+
+ipv4_prep(){
+    ipv=4
+    prefix="+"
+    if [[ -z $1 ]]
+    then
+        ip_new=$arg1
+    else
+        ip_new=$1
+    fi
+}
+
+ipv6_prep(){
+    ipv=6
+    prefix="3"
+    # expand ipv6
+    ip_new=$(grep -e "Expanded Address" /tmp/sipcalc | cut -d " " -f3)
+    # remove the colons
+    ip_new=${ip_new//\:/}
+}
+
+check_construct_replace(){
+    # Check currently set IP and only update if it differs from new IP
+    get_current_record $fqdn $prefix
+    if test $ip_new != $record_old; then
+        construct_record $prefix $fqdn $ip_new
+        replace_record $line $entry
+    fi
 }
 
 
@@ -46,7 +78,7 @@ arg1=$(echo $2 | cut -d " " -f2)
 if test $arg1 = "+txt"; then
     txt=$(echo $2 | cut -d " " -f3) 
     prefix="\'"
-    construct_record $fqdn $txt $prefix
+    construct_record $prefix $fqdn $txt
     # append TXT
     echo $entry >> $data
     exit 0
@@ -77,23 +109,23 @@ fi
 # real IPs
 if test $(grep -c "ipv4" /tmp/sipcalc) -eq 1
 then
-    ipv=4
-    prefix="+"
-    ip_new=$arg1
+    ipv4_prep
+    check_construct_replace
+    if [[ -n $IP6_DEFAULT ]]
+    then
+        sipcalc $IP6_DEFAULT > /tmp/sipcalc
+        ipv6_prep
+        check_construct_replace
+    fi
 elif test $(grep -c "ipv6" /tmp/sipcalc) -eq 1
 then
-    ipv=6
-    prefix="3"
-    # expand ipv6
-    ip_new=$(grep -e "Expanded Address" /tmp/sipcalc | cut -d " " -f3)
-    # remove the colons
-    ip_new=${ip_new//\:/}
-fi
-# Check currently set IP and only update if it differs from new IP
-get_current_record $fqdn $prefix
-if test $ip_new != $record_old; then
-    construct_record $fqdn $ip_new $prefix
-    replace_record $line $entry
+    ipv6_prep
+    check_construct_replace
+    if [[ -n $IP4_DEFAULT ]]
+    then
+        ipv4_prep $IP4_DEFAULT
+        check_construct_replace
+    fi
 fi
 rm /tmp/sipcalc
 exit 0
