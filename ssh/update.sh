@@ -111,7 +111,7 @@ if test $(grep -c "ipv4" /tmp/sipcalc) -eq 1
 then
     ipv4_prep
     check_construct_replace
-    if [[ -n $IP6_DEFAULT ]]
+    if [[ -n "$IP6_DEFAULT" ]]
     then
         sipcalc $IP6_DEFAULT > /tmp/sipcalc
         ipv6_prep
@@ -121,7 +121,7 @@ elif test $(grep -c "ipv6" /tmp/sipcalc) -eq 1
 then
     ipv6_prep
     check_construct_replace
-    if [[ -n $IP4_DEFAULT ]]
+    if [[ -n "$IP4_DEFAULT" ]]
     then
         ipv4_prep $IP4_DEFAULT
         check_construct_replace
