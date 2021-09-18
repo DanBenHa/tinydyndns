@@ -3,5 +3,5 @@
 IP4_DEFAULT=""
 # some ipv6, e.g. 2606:4700:4700::1111
 IP6_DEFAULT=""
-data="data"
+data="test/data_test"
 authorized_keys="authorized_keys"

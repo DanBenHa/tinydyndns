@@ -1,6 +1,6 @@
 setup_file () {
     # startup the docker-compose project 
-    docker-compose up -d     
+    docker-compose --env-file test/env_test up -d     
 }
 setup () {
     load 'test_helper/bats-support/load' # this is required by bats-assert!
@@ -21,8 +21,9 @@ teardown_file () {
 }
 
 @test "correct default soa" {
+    lastmod=$(stat -c %Y test/data_test)
     run dig +short -p 1053 SOA @localhost example.com
-    assert_output "ns1.example.com. hostmaster.example.com. 1631974809 16384 2048 1048576 2560"
+    assert_output "ns1.example.com. hostmaster.example.com. ${lastmod} 16384 2048 1048576 2560"
 }
 
 @test "correct default A records" {

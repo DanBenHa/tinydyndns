@@ -6,7 +6,7 @@ services:
       - "1053:53/udp"
     build: tinydns
     volumes:
-      - ./data:/etc/tinydns/root/data:ro
+      - ./${data}:/etc/tinydns/root/data:ro
   ssh:
     container_name: updater
     environment:
@@ -16,15 +16,15 @@ services:
       - "44:22"
     build: ssh
     volumes:
-      - ./data:/home/dyndns/data
-      - ./authorized_keys:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
+      - ./${data}:/home/dyndns/data
+      - ./${authorized_keys}:/home/dyndns/.ssh/authorized_keys  # this must be owned by 1000 (dyndns user in container) and have permissions 600
 
   inotify:
     build: inotify
     container_name: 'inotify'
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    - ./data:/data:ro
+    - ./${data}:/data:ro
     - ./inotify/post:/post:ro
     - ./inotify/start:/start:ro
     environment:
