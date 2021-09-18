@@ -53,3 +53,10 @@ teardown_file () {
     run dig +short -p 1053 AAAA @localhost *.example.com
     assert_output "2606:4700:4700::4444"
 }
+
+@test "tester can ssh into updater" {
+    run docker run -it --rm --network=tinydyndns_default tester ssh -o "StrictHostKeyChecking no" -i /etc/ssh/hostkey -q dyndns@updater
+    # fail because this returns exit 1
+    assert_failure
+    echo "Illegal number of arguments." | assert_output
+}
