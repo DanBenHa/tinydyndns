@@ -2,7 +2,7 @@ FROM alpine
 
 RUN \
     apk update; \
-    apk add tini openssh;
+    apk add tini openssh busybox-extras;
 ADD hostkey.pub /etc/hostkey.pub
 ADD hostkey /etc/ssh/hostkey
 

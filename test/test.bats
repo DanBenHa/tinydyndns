@@ -12,8 +12,20 @@ teardown_file () {
     docker-compose down
 }
 
-@test "can telnet into updater's port 44" {
-    echo -e '\x1dclose\x0d' | telnet localhost 44
+tester () {
+    docker run -it --rm --network=tinydyndns_default tester sh -c "$*"
+}
+
+@test "can telnet into updater's port 22" {
+    run tester "echo -e \'\x1dclose\x0d\' | telnet updater 22"
+    assert_success
+}
+
+@test "can ssh into updater" {
+    run tester "ssh -o \"StrictHostKeyChecking no\" -i /etc/ssh/hostkey -q dyndns@updater"
+    # fail because this returns exit 1
+    assert_failure
+    echo "Illegal number of arguments." | assert_output
 }
 
 @test "can get a DNS record" {
@@ -52,11 +64,4 @@ teardown_file () {
 
     run dig +short -p 1053 AAAA @localhost *.example.com
     assert_output "2606:4700:4700::4444"
-}
-
-@test "tester can ssh into updater" {
-    run docker run -it --rm --network=tinydyndns_default tester ssh -o "StrictHostKeyChecking no" -i /etc/ssh/hostkey -q dyndns@updater
-    # fail because this returns exit 1
-    assert_failure
-    echo "Illegal number of arguments." | assert_output
 }
