@@ -3,7 +3,7 @@ MAINTAINER Daniel Hähnke
 
 RUN \
  apk update; \
- apk add openssh grep sipcalc;
+ apk add openssh grep sipcalc tini;
 
 # cleanup
 RUN \
@@ -19,7 +19,7 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/
 ADD update.sh /update.sh
 
 EXPOSE 22/tcp
-
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD \
     echo $IP4_DEFAULT > /home/dyndns/IP4_DEFAULT; \ 
     echo $IP6_DEFAULT > /home/dyndns/IP6_DEFAULT; \ 

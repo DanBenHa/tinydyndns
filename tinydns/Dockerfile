@@ -3,7 +3,7 @@ MAINTAINER Daniel Hähnke
 
 RUN \
  apk update; \
- apk add gcc g++ make curl patch;
+ apk add gcc g++ make curl patch tini;
 
 # install daemontools
 # TODO: checksums
@@ -49,4 +49,5 @@ RUN ["chmod", "+x", "/entrypoint.sh"]
 
 EXPOSE 53/udp
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/entrypoint.sh"]
