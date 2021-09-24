@@ -13,7 +13,7 @@ teardown_file () {
 }
 
 tester () {
-    docker run -it --rm --network=tinydyndns_default tester sh -c "$*"
+    docker run -it --rm --network=tinydyndns_test tester sh -c "$*"
 }
 
 @test "can telnet into updater's port 22" {

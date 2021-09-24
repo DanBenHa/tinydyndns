@@ -32,3 +32,10 @@ services:
     - VOLUMES=/data
     - INOTIFY_OPTONS=--monitor
     - INOTIFY_EVENTS=close_write
+
+networks:
+  default:
+    name: ${NETWORK_NAME}
+    ipam:
+      config:
+      - subnet: ${NETWORK_SUBNET}
