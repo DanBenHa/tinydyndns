@@ -137,3 +137,24 @@ testit () {
     run testit "dig +short A @tinydns example.com"
     assert_output "13.33.33.37"
 }
+
+@test "TXT add, change, remove" {
+    # add
+    run testit "ssh -o \"StrictHostKeyChecking no\" -i /etc/ssh/hostkey -q dyndns@updater example.com +txt foo"
+    assert_success
+    # test addition
+    sleep 0.1
+    run testit "dig +short txt @tinydns example.com"
+    assert_output \"foo\"
+
+    # change
+    ### TODO not yet implemented
+
+    # remove
+    run testit "ssh -o \"StrictHostKeyChecking no\" -i /etc/ssh/hostkey -q dyndns@updater example.com -txt"
+    assert_success
+    # test removal
+    sleep 0.1
+    run testit "dig +short txt @tinydns example.com"
+    assert_output ""
+}
