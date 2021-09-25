@@ -29,7 +29,6 @@ replace_record()
 {
     sed -E "$1s/.*/$2/" $data > /tmp/data
     cat /tmp/data > $data
-    rm /tmp/data
 }
 
 ipv4_prep(){
@@ -77,10 +76,11 @@ arg1=$(echo $2 | cut -d " " -f2)
 # Add/remove TXT record
 if test $arg1 = "+txt"; then
     txt=$(echo $2 | cut -d " " -f3) 
-    prefix="\'"
+    prefix="'"
     construct_record $prefix $fqdn $txt
     # append TXT
     echo $entry >> $data
+    rm -f /tmp/*
     exit 0
 elif test $arg1 = "-txt"; then
     # escape wildcard
@@ -88,7 +88,7 @@ elif test $arg1 = "-txt"; then
     # remove all txt records matching fqdn
     sed "/^'$domain/d" $data > /tmp/data
     cat /tmp/data > $data
-    rm /tmp/data
+    rm -f /tmp/*
     exit 0
 fi
 
@@ -102,7 +102,7 @@ sipcalc $arg1 > /tmp/sipcalc
 if test $(grep -c "ERR" /tmp/sipcalc) -eq 1
 then
     echo "Illegal argument."
-    rm /tmp/sipcalc
+    rm -f /tmp/*
     exit 1
 fi
 
@@ -127,5 +127,5 @@ then
         check_construct_replace
     fi
 fi
-rm /tmp/sipcalc
+rm -f /tmp/*
 exit 0
