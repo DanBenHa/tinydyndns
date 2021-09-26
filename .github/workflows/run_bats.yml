@@ -12,9 +12,5 @@ jobs:
         run: docker build -t tester test/tester
       - name: Build app containers
         run: docker-compose build
-      - name: Setup BATS
-        uses: mig4/setup-bats@v1
-        with:
-          bats-version: 1.2.1
       - name: test
-        run: sudo bats --tap test/test.bats
+        run: sudo ./test/bats/bin/bats --tap test/test.bats
