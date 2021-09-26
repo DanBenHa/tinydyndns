@@ -12,7 +12,9 @@ jobs:
         run: docker build -t tester test/tester
       - name: Build app containers
         run: docker-compose build
-      - name: Run Bats tests
-        uses: ffurrer2/bats-action@v1
+      - name: Setup BATS
+        uses: mig4/setup-bats@v1
         with:
-          args: ./test.bats
+          bats-version: 1.2.1
+      - name: test
+        run: bats --tap test/test.bats
