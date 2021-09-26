@@ -6,13 +6,14 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
       - name: Build tester container
         run: docker build -t tester test/tester
       - name: Build app containers
         run: docker-compose build
-      - name: check files
-        run: tree .
-      # - name: check perms
-      #   run: ls -lh test/bats/bin
       - name: Run bats tests
-        run: ./test/bats/bin/bats test/test.bats 
+        run: |
+          mkdir foo
+          ./test/bats/bin/bats -o foo test/test.bats 
+      - run: cat foo/*
