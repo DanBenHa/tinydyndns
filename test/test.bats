@@ -1,10 +1,10 @@
 setup_file () {
     cp test/data_test_template test/data_test
     chown 1000:1000 test/data_test
-    # # start the docker-compose app 
-    # docker-compose --env-file test/env_test up -d     
-    # # start the tester container
-    # docker run --ip 13.33.33.37 --rm --network=tinydyndns_test -d --name tester tester tail -f /dev/null
+    # start the docker-compose app 
+    docker-compose --env-file test/env_test up -d     
+    # start the tester container
+    docker run --ip 13.33.33.37 --rm --network=tinydyndns_test -d --name tester tester tail -f /dev/null
 }
 setup () {
     load 'test_helper/bats-support/load' # this is required by bats-assert!
@@ -12,10 +12,10 @@ setup () {
 }
 
 teardown_file () {
-    # # end tester container
-    # docker stop tester
-    # # end the docker-compose app
-    # docker-compose down
+    # end tester container
+    docker stop tester
+    # end the docker-compose app
+    docker-compose down
     rm test/data_test
 }
 
