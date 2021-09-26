@@ -10,7 +10,9 @@ jobs:
         run: docker build -t tester test/tester
       - name: Build app containers
         run: docker-compose build
-      - name: check perms
-        run: ls -lh test/bats/bin
+      - name: check files
+        run: tree .
+      # - name: check perms
+      #   run: ls -lh test/bats/bin
       - name: Run bats tests
         run: ./test/bats/bin/bats test/test.bats 
