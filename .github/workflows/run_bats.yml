@@ -17,4 +17,4 @@ jobs:
         with:
           bats-version: 1.2.1
       - name: test
-        run: bats --tap test/test.bats
+        run: sudo bats --tap test/test.bats
