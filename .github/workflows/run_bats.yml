@@ -12,8 +12,7 @@ jobs:
         run: docker build -t tester test/tester
       - name: Build app containers
         run: docker-compose build
-      - name: Run bats tests
-        run: |
-          mkdir foo
-          ./test/bats/bin/bats -o foo test/test.bats 
-      - run: cat foo/*
+      - name: Run Bats tests
+        uses: ffurrer2/bats-action@v1
+        with:
+          args: ./test.bats
