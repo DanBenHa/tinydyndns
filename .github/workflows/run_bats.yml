@@ -1,0 +1,16 @@
+name: Run tests
+on: [push]
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+      - name: Build tester container
+        run: docker build -t tester test/tester
+      - name: Build app containers
+        run: docker-compose build
+      - name: test
+        run: sudo ./test/bats/bin/bats --tap test/test.bats
