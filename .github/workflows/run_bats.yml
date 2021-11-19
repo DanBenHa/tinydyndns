@@ -6,8 +6,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
+        with:
+            submodules: recursive
       - name: Build tester container
         run: docker build -t tester test/tester
       - name: Build app containers
