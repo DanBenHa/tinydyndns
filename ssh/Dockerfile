@@ -22,7 +22,7 @@ EXPOSE 22/tcp
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD \
     mkdir /home/dyndns/.ssh; \
-    cp /tmp/authorized_keys /home/dyndns/.ssh/authorized_keys; \
+    cp /tmp/.authorized_keys /home/dyndns/.ssh/authorized_keys; \
     chown dyndns:dyndns /home/dyndns/.ssh/authorized_keys; \
     chmod 600 /home/dyndns/.ssh/authorized_keys; \
     echo $IP4_DEFAULT > /home/dyndns/IP4_DEFAULT; \ 

@@ -17,7 +17,7 @@ services:
     build: ssh
     volumes:
       - ./${data}:/home/dyndns/data
-      - ./${authorized_keys}:/tmp/authorized_keys
+      - ./${authorized_keys}:/tmp/.authorized_keys
 
   inotify:
     build: inotify
